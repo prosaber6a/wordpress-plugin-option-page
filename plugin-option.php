@@ -18,6 +18,7 @@ class PluginOption {
 		add_action( 'admin_menu', array( $this, 'create_setting' ) );
 		add_action( 'admin_init', array( $this, 'setup_section' ) );
 		add_action( 'admin_init', array( $this, 'setup_field' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_setting_link' ) );
 	}
 
 	public function load_textdomain() {
@@ -56,11 +57,10 @@ class PluginOption {
 		add_settings_section(
 			'plugin_option_section',
 			__( 'Demonstration of plugin settings page', 'plugin-option' ),
-            array(),
+			array(),
 			'plugin_option_page'
 		);
 	}
-
 
 
 	public function setup_field() {
@@ -105,7 +105,7 @@ class PluginOption {
 				array( $this, 'field_callback' ),
 				'plugin_option_page',
 				$field['section'],
-                $field
+				$field
 			);
 			register_setting( 'plugin_option_group', $field['id'] );
 		}
@@ -136,6 +136,14 @@ class PluginOption {
 				printf( '<p class="description">%s </p>', $desc );
 			}
 		}
+	}
+
+
+	public function plugin_setting_link( $links ) {
+		$newlinks = sprintf( "<a href='%s'>%s</a>", 'admin.php?page=plugin_option_page', __( 'Setting', 'plugin-option' ) );
+		$links[]  = $newlinks;
+
+		return $links;
 	}
 
 
