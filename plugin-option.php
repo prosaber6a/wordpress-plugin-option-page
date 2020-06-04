@@ -12,6 +12,8 @@
  */
 
 
+require_once plugin_dir_path( __FILE__ ) . "/plugin-option-another.php";
+
 class PluginOption {
 	public function __construct() {
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
@@ -39,7 +41,7 @@ class PluginOption {
 	public function setting_content() {
 		?>
         <div class="wrap">
-            <h1>Option Demo</h1>
+            <h1>Plugin Option</h1>
 			<?php settings_errors(); ?>
             <form action="" method="post">
 				<?php
